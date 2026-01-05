@@ -1,0 +1,38 @@
+services:
+
+  mqtt.broker:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mqtt/config:/mosquitto/config
+      - ./mqtt/log:/mosquitto/log
+    restart: unless-stopped
+
+  postgres.db:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+      - ./postgres/initdb:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+  tomcat.app:
+    build: ./tomcat
+    container_name: tomcat_server
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres.db
+      - mqtt.broker
+    volumes:
+      - ./tomcat/app:/usr/local/tomcat/webapps
+    restart: unless-stopped
+  
