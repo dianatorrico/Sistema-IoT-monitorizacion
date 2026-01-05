@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+
+    <!-- Pool de conexiones a PostgreSQL para la práctica -->
+    <Resource
+        name="jdbc/ubicomp"
+        auth="Container"
+        type="javax.sql.DataSource"
+        maxTotal="20"
+        maxIdle="10"
+        maxWaitMillis="10000"
+        username="postgres"
+        password="postgres"
+        driverClassName="org.postgresql.Driver"
+        url="jdbc:postgresql://postgres.db:5432/postgres" />
+
+</Context>
+
