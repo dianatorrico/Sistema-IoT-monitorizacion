@@ -42,8 +42,7 @@ El sistema sigue una arquitectura IoT clásica dividida en capas:
 
 ```text
 esp32/       → Código del dispositivo IoT  
-backend/     → Servidor Java y lógica de negocio  
-database/    → Scripts SQL (esquema y datos iniciales)  
-mqtt/        → Configuración del broker Mosquitto  
+backend/     → Servidor Java y lógica de negocio
+appAndroid/  → Desarrollo aplicación Android
 docker/      → Despliegue completo con Docker Compose  
 docs/        → Memoria, diagramas y manuales de usuario
