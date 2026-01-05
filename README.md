@@ -41,7 +41,7 @@ El sistema sigue una arquitectura IoT clásica dividida en capas:
 ## Estructura del repositorio
 
 ```text
-esp32/        → Código del dispositivo IoT  
+esp32/       → Código del dispositivo IoT  
 backend/     → Servidor Java y lógica de negocio  
 database/    → Scripts SQL (esquema y datos iniciales)  
 mqtt/        → Configuración del broker Mosquitto  
