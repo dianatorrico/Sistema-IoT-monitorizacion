@@ -15,16 +15,16 @@ En este directorio se incluyen los siguientes elementos:
 - Explicación de la arquitectura IoT empleada.
 - Descripción de las tecnologías utilizadas.
 - Análisis del funcionamiento global del sistema.
+- #### Manuales de usuario
+  - Manual de usuario de la aplicación web.
+  - Manual de usuario de la aplicación móvil Android.
+  - Instrucciones básicas de uso y navegación.
 
 ### Diagramas
 - Diagramas de arquitectura del sistema.
 - Diagramas de despliegue de los distintos componentes.
 - Representación de la comunicación entre capas (ESP32, MQTT, backend, base de datos y aplicaciones).
 
-### Manuales de usuario
-- Manual de usuario de la aplicación web.
-- Manual de usuario de la aplicación móvil Android.
-- Instrucciones básicas de uso y navegación.
 
 ---
 
