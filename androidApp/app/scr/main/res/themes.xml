@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- BASE -->
+    <style name="Base.Theme.AppPECL3" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#3B82F6</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
+        <item name="colorOnBackground">#0F172A</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#0F172A</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <!-- THEME -->
+    <style name="Theme.AppPECL3" parent="Base.Theme.AppPECL3">
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+</resources>
