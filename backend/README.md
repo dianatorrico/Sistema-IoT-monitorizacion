@@ -1,15 +1,30 @@
 # Backend – Servidor Java
 
-Servidor Java desplegado en Apache Tomcat encargado de:
+Este módulo implementa el backend del sistema IoT y está desarrollado como una aplicación Java basada en Maven y desplegable en Apache Tomcat.
 
-- Suscribirse a tópicos MQTT
-- Procesar telemetría de dispositivos IoT
-- Persistir datos en PostgreSQL
-- Exponer servicios REST
+## Funcionalidad principal
 
-## Estructura de paquetes
+- Suscripción a tópicos MQTT
+- Procesamiento de mensajes enviados por dispositivos ESP32
+- Persistencia de datos en PostgreSQL mediante JPA
+- Exposición de servicios REST mediante Servlets
+- Provisión de una interfaz web básica
 
-- Database: conexión y acceso a base de datos
-- Logic: lógica de negocio
-- Mqtt: comunicación MQTT
-- Servlets: APIs REST
+## Estructura del backend
+
+```text
+backend/
+├── src/
+│   ├── Database/     → Conexión y acceso a base de datos
+│   ├── Logic/        → Lógica de negocio
+│   ├── Mqtt/         → Comunicación MQTT
+│   └── Servlets/     → APIs REST
+├── resources/
+│   ├── log4j2.xml
+│   └── META-INF/persistence.xml
+├── webapp/
+│   ├── index.html
+│   └── WEB-INF/
+│       ├── web.xml
+│       └── beans.xml
+└── pom.xml
