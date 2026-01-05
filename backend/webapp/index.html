@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Paneles informativos - Sistema Ubicomp</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+/* ==========================================================
+   DISEÑO PROFESIONAL + FONDO ELEGANTE
+========================================================== */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, #eef1f5, #f9fafb);
+}
+
+/* HEADER */
+header {
+    background: #0f172a;
+    color: white;
+    padding: 1.4rem 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+header h1 { margin: 0; font-size: 1.75rem; font-weight: 700; }
+header p { margin: .35rem 0 0; font-size: .95rem; color: #cbd5e1; }
+
+/* MAIN */
+main {
+    padding: 2rem;
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+/* ==========================================================
+   TARJETAS / CARDS
+========================================================== */
+.card {
+    background: rgba(255,255,255,0.97);
+    border-radius: 1rem;
+    padding: 1.4rem 1.7rem;
+    border: 1px solid #d6dde6;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+/* efecto hover */
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+}
+
+/* TITULOS */
+.card h2 {
+    margin-top: 0;
+    font-size: 1.35rem;
+    font-weight: 600;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: .5rem;
+}
+
+/* FORMULARIOS */
+label { font-size: .88rem; font-weight: 600; margin-bottom:.25rem; display:block; color:#475569; }
+input, select, textarea {
+    width: 100%;
+    padding: .6rem .75rem;
+    border-radius: .55rem;
+    border: 1px solid #cbd5e1;
+    background: white;
+    box-sizing: border-box;
+}
+
+textarea { resize: vertical; min-height: 70px; }
+
+/* BOTONES */
+button {
+    border:none;
+    border-radius: .7rem;
+    padding: .6rem 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-primary { background:#2563eb; color:white; }
+.btn-secondary { background:#e2e8f0; }
+
+/* TAGS */
+.status-tag {
+    padding:.30rem .75rem;
+    border-radius:.7rem;
+    font-size:.80rem;
+    font-weight:600;
+    display:inline-block;
+}
+.status-ok { background:#bbf7d0; color:#166534; }
+
+/* TABLAS */
+table {
+    width:100%;
+    border-collapse: collapse;
+    margin-top:1rem;
+}
+th {
+    background:#dcecfe;
+    padding:.6rem;
+    font-weight:600;
+}
+td {
+    padding:.55rem;
+    border-bottom:1px solid #e2e8f0;
+}
+
+/* CONTENEDOR DOS COLUMNAS */
+.two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+@media(max-width:900px){
+    .two-columns { grid-template-columns: 1fr; }
+}
+
+/* TOGGLE MODO FILTRO */
+.filter-mode {
+    display:flex;
+    gap:1rem;
+    margin-bottom:1rem;
+}
+.filter-btn {
+    padding:.5rem 1rem;
+    background:#e2e8f0;
+    border-radius:.6rem;
+    cursor:pointer;
+    font-weight:600;
+}
+.filter-btn.active {
+    background:#2563eb;
+    color:white;
+}
+
+/* GRID FORM */
+.flex-row {
+    display:flex;
+    flex-wrap:wrap;
+    gap:1rem;
+}
+
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Paneles informativos - Sistema de gestión urbano</h1>
+    <p>Sistema de consulta y control en tiempo real</p>
+</header>
+
+<main>
+
+<!-- ======================================================
+     ESTADO + ACTUADOR EN DOS COLUMNAS
+====================================================== -->
+<div class="two-columns">
+
+    <!-- ESTADO DEL PANEL -->
+    <section class="card">
+        <h2>Estado actual del panel</h2>
+
+        <label>Dispositivo</label>
+        <select id="deviceSelect"></select>
+
+        <div id="currentStatus" style="margin-top:1rem;">
+            <p class="muted">Selecciona un dispositivo.</p>
+        </div>
+    </section>
+
+    <!-- CONTROL DEL PANEL -->
+    <section class="card">
+        <h2>Control del panel (actuador)</h2>
+
+        <label>Dispositivo</label>
+        <select id="deviceSelectControl"></select>
+
+        <label style="margin-top:.7rem;">Mensaje a mostrar</label>
+        <textarea id="messageInput" placeholder="Texto que quieras enviar al panel..."></textarea>
+
+        <label style="margin-top:.7rem;">
+            <input type="checkbox" id="forceUpdate"> Forzar actualización de contenido
+        </label>
+
+        <button class="btn-primary" id="sendMessageBtn" style="margin-top:1rem;">
+            Enviar mensaje al panel
+        </button>
+
+        <div id="controlFeedback" style="margin-top:.5rem;"></div>
+    </section>
+
+</div>
+
+
+<!-- ======================================================
+     HISTORIAL DE TELEMETRÍA
+====================================================== -->
+<section class="card">
+    <h2>Historial de telemetría</h2>
+
+    <div class="filter-mode">
+        <div id="btnFecha" class="filter-btn active">Por fecha</div>
+        <div id="btnHora" class="filter-btn">Por fecha y hora</div>
+        <div id="btnCo2" class="filter-btn">Por CO₂</div>
+    </div>
+
+    <form id="historyForm" class="flex-row">
+
+        <div style="flex:1 1 180px;">
+            <label>Dispositivo</label>
+            <select id="deviceHistory"></select>
+        </div>
+
+        <div style="flex:1 1 180px;">
+            <label>Fecha</label>
+            <input type="date" id="dateHistory">
+        </div>
+
+        <div class="hour-fields" style="display:none; flex:1 1 180px;">
+            <label>Hora inicio</label>
+            <input type="time" id="hourStart">
+        </div>
+
+        <div class="hour-fields" style="display:none; flex:1 1 180px;">
+            <label>Hora fin</label>
+            <input type="time" id="hourEnd">
+        </div>
+
+        <div class="co2-fields" style="display:none; flex:1 1 180px;">
+            <label>CO₂ mínimo</label>
+            <input type="number" id="co2Min" placeholder="Ej. 400">
+        </div>
+
+        <div class="co2-fields" style="display:none; flex:1 1 180px;">
+            <label>CO₂ máximo</label>
+            <input type="number" id="co2Max" placeholder="Ej. 800">
+        </div>
+
+        <div style="flex:1 1 120px;">
+            <button class="btn-primary" type="submit">Consultar</button>
+        </div>
+
+    </form>
+
+    <div id="historyResults" style="margin-top:1rem;">
+        <p class="muted">Aún no se ha realizado ninguna consulta.</p>
+    </div>
+
+</section>
+
+</main>
+
+<!-- ======================================================
+     JAVASCRIPT
+====================================================== -->
+<script>
+
+// TOGGLE MODO
+let modo = "fecha";
+const btnFecha = document.getElementById("btnFecha");
+const btnHora  = document.getElementById("btnHora");
+const btnCo2   = document.getElementById("btnCo2");
+
+btnFecha.onclick = () => switchMode("fecha");
+btnHora.onclick  = () => switchMode("hora");
+btnCo2.onclick   = () => switchMode("co2");
+
+function switchMode(m){
+    modo = m;
+
+    [btnFecha,btnHora,btnCo2].forEach(b => b.classList.remove("active"));
+    if(m==="fecha") btnFecha.classList.add("active");
+    if(m==="hora")  btnHora.classList.add("active");
+    if(m==="co2")   btnCo2.classList.add("active");
+
+    document.querySelectorAll(".hour-fields").forEach(el =>
+        el.style.display = m==="hora" ? "block" : "none"
+    );
+    document.querySelectorAll(".co2-fields").forEach(el =>
+        el.style.display = m==="co2" ? "block" : "none"
+    );
+}
+
+// API
+async function fetchJSON(url){
+    const r = await fetch(url);
+    if(!r.ok) throw new Error(r.status);
+    return r.json();
+}
+
+// CARGA DISPOSITIVOS
+async function loadDevices(){
+    const devices = await fetchJSON("/api/dispositivos");
+
+    ["deviceSelect","deviceSelectControl","deviceHistory"].forEach(id=>{
+        const sel=document.getElementById(id);
+        sel.innerHTML="";
+        devices.forEach(d=>{
+            const o=document.createElement("option");
+            o.value=d.id;
+            o.textContent=d.nombre;
+            sel.appendChild(o);
+        });
+    });
+
+    updateCurrentStatus(devices[0].id);
+}
+
+// ESTADO PANEL
+async function updateCurrentStatus(id){
+    const d = await fetchJSON("/api/dispositivos/"+id+"/estado");
+
+    document.getElementById("currentStatus").innerHTML = `
+        <span class="status-tag status-ok">Calidad aire: ${d.mensaje_calidad_aire}</span>
+        <div>Mensaje: ${d.mensaje_actual}</div>
+        <div>CO₂: ${d.co2_ppm}</div>
+        <div>Luz: ${d.luz_ambiente_alta?"Alta":"Baja"}</div>
+        <div>Estado: ${d.estado_dispositivo}</div>
+        <div>Última actualización: ${d.instante}</div>
+    `;
+}
+
+// ACTUADOR
+async function enviarMensajePanel(msg, force) {
+    const params = new URLSearchParams();
+    params.append("mensaje", msg);
+    params.append("forzar", force ? "true" : "false");
+
+    const r = await fetch("/api/panel/actuator", {
+        method:"POST",
+        headers:{ "Content-Type":"application/x-www-form-urlencoded" },
+        body: params
+    });
+
+    if(!r.ok) throw new Error("Error enviando mensaje");
+}
+
+document.getElementById("sendMessageBtn").onclick = async () => {
+    const msg = document.getElementById("messageInput").value.trim();
+    const force = document.getElementById("forceUpdate").checked;
+    const fb = document.getElementById("controlFeedback");
+
+    if(!msg){
+        fb.innerHTML = "<p class='error'>El mensaje no puede estar vacío.</p>";
+        return;
+    }
+
+    fb.innerHTML = "<p class='muted'>Enviando...</p>";
+
+    try {
+        await enviarMensajePanel(msg, force);
+        fb.innerHTML = "<p class='success'>Mensaje enviado correctamente.</p>";
+    } catch {
+        fb.innerHTML = "<p class='error'>Error enviando mensaje al panel.</p>";
+    }
+};
+
+// HISTORIAL
+async function loadByFecha(device,fecha){
+    return fetchJSON(`/api/telemetria?dispositivo=${device}&fecha=${fecha}`);
+}
+
+async function loadByHora(device,fecha,h1,h2){
+    return fetchJSON(`/api/telemetriaHora?dispositivo=${device}&fecha=${fecha}&horaInicio=${h1}&horaFin=${h2}`);
+}
+
+async function loadByCo2(device,fecha,min,max){
+    return fetchJSON(`/api/telemetriaCo2?dispositivo=${device}&fecha=${fecha}&co2Min=${min}&co2Max=${max}`);
+}
+
+document.getElementById("historyForm").onsubmit = async(e)=>{
+    e.preventDefault();
+
+    let device = document.getElementById("deviceHistory").value;
+    let fecha  = document.getElementById("dateHistory").value;
+    let h1 = document.getElementById("hourStart").value;
+    let h2 = document.getElementById("hourEnd").value;
+    let c1 = document.getElementById("co2Min").value;
+    let c2 = document.getElementById("co2Max").value;
+
+    let data = [];
+    if(modo==="fecha") data = await loadByFecha(device,fecha);
+    if(modo==="hora")  data = await loadByHora(device,fecha,h1,h2);
+    if(modo==="co2")   data = await loadByCo2(device,fecha,c1,c2);
+
+    let out=document.getElementById("historyResults");
+    if(!data.length){
+        out.innerHTML="<p class='muted'>No hay datos.</p>";
+        return;
+    }
+
+    let html = `
+    <table>
+        <thead>
+            <tr>
+                <th>Instante</th>
+                <th>Mensaje</th>
+                <th>CO₂</th>
+                <th>Luz</th>
+                <th>Calidad aire</th>
+            </tr>
+        </thead>
+        <tbody>
+    `;
+
+    data.forEach(r=>{
+        html+=`
+        <tr>
+            <td>${r.instante}</td>
+            <td>${r.mensaje_actual}</td>
+            <td>${r.co2_ppm}</td>
+            <td>${r.luz_ambiente_alta ? "Alta" : "Baja"}</td>
+            <td>${r.mensaje_calidad_aire}</td>
+        </tr>`;
+    });
+
+    html+="</tbody></table>";
+    out.innerHTML = html;
+};
+
+document.addEventListener("DOMContentLoaded", loadDevices);
+
+</script>
+
+</body>
+</html>
