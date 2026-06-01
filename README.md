@@ -1,48 +1,47 @@
 # Sistema IoT de Monitorización Urbana con ESP32
 
-## Descripción del proyecto
+Proyecto académico desarrollado para la asignatura de Computación Ubicua.
+Implementa un sistema IoT completo para monitorizar y controlar un panel informativo urbano mediante ESP32, MQTT, backend Java, PostgreSQL, aplicación web y aplicación Android.
 
-Este proyecto implementa un sistema completo de monitorización y actuación IoT aplicado a un panel informativo urbano situado en una calle del barrio de Puerta del Ángel (Madrid).
+## Objetivo del proyecto
 
-El sistema recoge datos ambientales mediante sensores, los transmite mediante MQTT y los procesa en un backend Java, almacenándolos en una base de datos PostgreSQL y mostrándolos a través de aplicaciones web y móvil.
+El sistema permite:
+- Captar datos ambientales: luminosidad y CO₂.
+- Enviar telemetría desde una ESP32 mediante MQTT.
+- Almacenar los datos en PostgreSQL.
+- Consultar el estado actual y el histórico desde una aplicación web y una app Android.
+- Enviar mensajes al panel LCD desde la aplicación web.
 
----
+## Arquitectura general
 
-## Arquitectura del sistema
+El proyecto se divide en cuatro capas:
 
-El sistema sigue una arquitectura IoT clásica dividida en capas:
+1. Capa de percepción: ESP32, sensor de luz, sensor MQ-135 y pantalla LCD.
+2. Capa de transporte: comunicación MQTT mediante Mosquitto.
+3. Capa de procesado: backend Java desplegado en Tomcat y base de datos PostgreSQL.
+4. Capa de aplicación: interfaz web y aplicación Android.
 
-- **Capa de percepción**  
-  Dispositivo ESP32 con:
-  - Sensor digital de luz
-  - Sensor de CO₂
-  - Pantalla LCD como actuador
+## Tecnologías utilizadas
 
-- **Capa de transporte**  
-  Comunicación mediante protocolo MQTT usando el broker Mosquitto.
-
-- **Capa de servicio / backend**  
-  Servidor Java desplegado en Apache Tomcat que:
-  - Se suscribe a los tópicos MQTT
-  - Procesa la telemetría
-  - Expone APIs REST
-
-- **Capa de datos**  
-  Base de datos PostgreSQL para persistencia de:
-  - Dispositivos
-  - Calles
-  - Telemetrías
-
-- **Capa de aplicación**  
-  Aplicación web y aplicación móvil para visualización y control.
-
----
+- ESP32 / Arduino
+- MQTT
+- Mosquitto
+- Java
+- Apache Tomcat
+- PostgreSQL
+- Docker / Docker Compose
+- Android Studio
+- Retrofit
+- Eclipse Paho MQTT
+- HTML / CSS / JavaScript
 
 ## Estructura del repositorio
 
 ```text
-esp32/       → Código del dispositivo IoT  
-backend/     → Servidor Java y lógica de negocio
-appAndroid/  → Desarrollo aplicación Android
-docker/      → Despliegue completo con Docker Compose  
-docs/        → Memoria, diagramas y manuales de usuario
+Sistema-IoT-monitorizacion/
+├── androidApp/      # Aplicación móvil Android
+├── backend/         # Backend Java, servlets, MQTT y acceso a base de datos
+├── docker/          # Infraestructura Docker: Tomcat, PostgreSQL y Mosquitto
+├── docs/            # Memoria, diagramas y documentación
+├── esp32/           # Código del dispositivo físico
+└── README.md
