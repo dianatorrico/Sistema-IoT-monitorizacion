@@ -168,25 +168,3 @@ docker/
 
 ---
 
-## Relación con el resto del proyecto
-
-Este módulo conecta los principales componentes del sistema:
-
-- `esp32/`: publica telemetría mediante MQTT hacia Mosquitto.
-- `backend/`: se despliega sobre Tomcat y se comunica con Mosquitto y PostgreSQL.
-- `androidApp/`: consume la API REST expuesta por el backend.
-- `docs/`: contiene la memoria y diagramas explicativos del despliegue.
-
----
-
-## Notas
-
-Este despliegue está pensado para un entorno académico y de pruebas.
-
-Para un entorno de producción sería necesario añadir medidas adicionales como:
-
-- Gestión segura de credenciales.
-- Cifrado TLS para MQTT.
-- Autenticación en la API.
-- Configuración avanzada de red.
-- Copias de seguridad de la base de datos.
