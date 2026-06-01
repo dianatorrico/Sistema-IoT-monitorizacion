@@ -6,7 +6,20 @@ La documentación complementa el código fuente y permite comprender el diseño,
 
 ---
 
-## Contenido
+## Archivos incluidos
+
+| Archivo | Descripción |
+|---|---|
+| `memoria.pdf` | Memoria justificativa completa del proyecto |
+| `diagrama-arquitectura.png` | Diagrama general de arquitectura del sistema IoT |
+| `diagrama-clases-appAndroid.png` | Diagrama de clases de la aplicación móvil Android |
+| `Street Device Monitoring-2025-12-20-130313.pdf` | Documento adicional/exportación relacionada con el sistema de monitorización |
+
+> Si alguno de estos archivos se renombra, se recomienda actualizar esta tabla para mantener la documentación sincronizada con el repositorio.
+
+---
+
+## Contenido de la documentación
 
 ### Memoria del proyecto
 
@@ -24,15 +37,15 @@ Documento principal del proyecto, donde se describe:
 
 ### Manuales de usuario
 
-Documentación orientada al uso del sistema:
+La memoria incluye documentación orientada al uso del sistema:
 
 - Manual de usuario de la aplicación web.
 - Manual de usuario de la aplicación móvil Android.
-- Instrucciones básicas de navegación y consulta de datos.
+- Instrucciones básicas de uso, navegación y consulta de datos.
 
 ### Manual de instalación
 
-Guía para poner en marcha el sistema en un entorno local:
+La documentación también incluye una guía para poner en marcha el sistema en un entorno local:
 
 - Requisitos previos.
 - Despliegue con Docker Compose.
@@ -45,10 +58,8 @@ Guía para poner en marcha el sistema en un entorno local:
 Representaciones visuales del sistema:
 
 - Diagrama general de arquitectura por capas.
-- Diagrama de despliegue de componentes.
 - Diagrama de clases de la aplicación Android.
-- Diagrama de flujo de navegación.
-- Comunicación entre ESP32, MQTT, backend, base de datos y aplicaciones.
+- Representación de la comunicación entre ESP32, MQTT, backend, base de datos y aplicaciones.
 
 ---
 
@@ -60,6 +71,7 @@ El objetivo de este directorio es:
 - Servir de apoyo a la evaluación académica del trabajo.
 - Documentar las decisiones de diseño tomadas durante el desarrollo.
 - Permitir que cualquier lector entienda el sistema sin necesidad de ejecutar el código.
+- Centralizar la memoria, diagramas y materiales explicativos del sistema.
 
 ---
 
@@ -67,8 +79,29 @@ El objetivo de este directorio es:
 
 Esta documentación está vinculada con las principales partes del repositorio:
 
-- `esp32/`: código del dispositivo físico basado en ESP32.
-- `backend/`: servidor Java, comunicación MQTT, API REST y acceso a PostgreSQL.
-- `docker/`: infraestructura de despliegue con Mosquitto, Tomcat y PostgreSQL.
-- `androidApp/`: aplicación móvil Android.
-- `docs/`: memoria, manuales y diagramas del proyecto.
+| Carpeta | Descripción |
+|---|---|
+| [`esp32/`](../esp32/) | Código del dispositivo físico basado en ESP32 |
+| [`backend/`](../backend/) | Servidor Java, comunicación MQTT, API REST y acceso a PostgreSQL |
+| [`docker/`](../docker/) | Infraestructura de despliegue con Mosquitto, Tomcat y PostgreSQL |
+| [`androidApp/`](../androidApp/) | Aplicación móvil Android |
+| [`docs/`](./) | Memoria, manuales y diagramas del proyecto |
+
+---
+
+## Recomendaciones de lectura
+
+Para entender el proyecto de forma progresiva, se recomienda revisar la documentación en este orden:
+
+1. `memoria.pdf`
+2. `diagrama-arquitectura.png`
+3. `diagrama-clases-appAndroid.png`
+4. README principal del repositorio
+5. README específicos de cada módulo: `docker/`, `backend/`, `esp32/` y `androidApp/`
+
+---
+
+## Notas
+
+Este directorio forma parte de un proyecto académico.  
+Los documentos incluidos sirven como apoyo para comprender el diseño, implementación y validación del prototipo.
